@@ -1,0 +1,39 @@
+{
+  "name": "mongowebscrapper",
+  "version": "1.0.0",
+  "description": "Web app that allows users to check out articles and comment while storing the data into a mongoDB via the use of mongoose.",
+  "main": "index.js",
+  "scripts": {
+    "test": "node app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shumie-code/MongoWebScrapper.git"
+  },
+  "keywords": [
+    "mongo",
+    "mongoDB",
+    "mongoose",
+    "node",
+    "javascript",
+    "cheerio",
+    "axios",
+    "ajax",
+    "express",
+    "handlebars",
+    "express-handlebars"
+  ],
+  "author": "Petros Shumie (shumie-code)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shumie-code/MongoWebScrapper/issues"
+  },
+  "homepage": "https://github.com/shumie-code/MongoWebScrapper#readme",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "cheerio": "^1.0.0-rc.3",
+    "express": "^4.17.1",
+    "express-handlebars": "^3.1.0",
+    "mongoose": "^5.8.2"
+  }
+}
