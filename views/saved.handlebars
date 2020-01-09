@@ -1,0 +1,35 @@
+{{!Navbar}}
+<nav class="navbar navbar-expand-lg navbar-danger bg-light">
+    <a class="navbar-brand" href="#">Draft-Scraper</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
+        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div class="navbar-nav">
+            <a class="nav-item nav-link active" href="#">Home <span class="sr-only">(current)</span></a>
+        </div>
+    </div>
+</nav>
+
+{{! Main header }}
+<div class="jumbotron jumbotron-fluid">
+    <div class="container">
+        <h1 class="display-4 text-center">Scouting Reports</h1>
+        <p class="lead text-center">
+            <bold>Comment on Tankathon draft scouting</bold>
+        </p>
+    </div>
+</div>
+
+{{! Articles}}
+<div id="articles">
+    {{#each articles}}
+    {{> saved-article }}
+    {{/each}}
+</div>
+
+{{! Modal for Notes}}
+{{#each articles}}
+{{> modal }}
+{{/each}}
