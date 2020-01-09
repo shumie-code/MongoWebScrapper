@@ -1,6 +1,7 @@
 var express = require("express");
 var logger = require("morgan");
 var mongoose = require("mongoose");
+var path = require("path");
 
 // Scrapping tools are Axios and Cheerio
 var axios = require("axios");
@@ -10,7 +11,7 @@ var cheerio = require("cheerio");
 var db = require("./models");
 
 //establish heroku and local port access 
-var PORT = 3000;
+var PORT = process.env.PORT || 3000;
 
 // Initialize express
 var app = express();
