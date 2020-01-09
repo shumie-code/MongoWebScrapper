@@ -83,3 +83,23 @@ app.get("/scraped", function(req, res) {
   });
   res.send("Done Scraping");
 });
+
+
+// Get request to display stored article data
+app.get("/stored", function(req, res) {
+    db.Article.find({"saved": true})
+        .populate("notes")
+        .then(function(result) {
+            var hbsObject = { articles: result };
+            res.render("saved", hbsObject);
+        }).catch(function(err){ res.json(err) });
+});
+
+// Post stored article data
+app.post("/stored/:id", function(req, res) {
+    db.Article.findOneAndUpdate({"_id": req.params.id}, {"$set": {"saved": true}})
+    .then(function(result) {
+        res.json(result);
+    }).catch(function(err){ res.json(err) });
+})
+
