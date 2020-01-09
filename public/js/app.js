@@ -20,7 +20,7 @@ $(".save").on("click", function() {
     })
 });
 
-// Click function for "delete" button
+// Click function for delete button
 $(".delete").on("click", function() {
     var thisId = $(this).attr("data-id");
     $.ajax({
@@ -31,4 +31,30 @@ $(".delete").on("click", function() {
     })
 });
 
-// Click function for button
+// Click function for note button
+$(".save-note").on("click", function() {
+    var thisId = $(this).attr("data-id");
+    $.ajax({
+        method: "POST",
+        url: "/articles/" + thisId,
+        data: {
+            body: $("#noteText" + thisId).val()
+        }
+    }).then(function(data) {
+        console.log(data);
+        $("#noteText" + thisId).val("");
+        $(".modalNote").modal("hide");
+        window.location = "/saved"
+    });
+});
+
+// Click function for deleting one note
+$(".deleteNote").on("click", function() {
+    $.ajax({
+        method: "POST",
+        url: "/deleteNote/" + thisId,
+    }).then(function(data) {
+        console.log(data);
+        window.location = "/"
+    })
+})
