@@ -103,3 +103,21 @@ app.post("/stored/:id", function(req, res) {
     }).catch(function(err){ res.json(err) });
 })
 
+// Deletes specific articles from "Stored Articles" and puts them back on the homepage
+app.post("delete/:id", function(req, res){
+    db.Article.findOneAndUpdate({"_id": req.params.id}, {"$set": {"saved": false}})
+    .then(function(result){
+        res.json(result);
+    }).catch(function(err) { res.json(err) });
+});
+
+// Grabs a specific  article by id and populates it with it's note(s)
+app.get("/articles/:id", function(req, res) {
+    db.Article.findOne({"_id": req.params.id })
+    .populate("notes")
+    .then(function(result) {
+        res.json(result);
+    }).catch(function(err) { res.json(err); });
+});
+
+// Creates a
