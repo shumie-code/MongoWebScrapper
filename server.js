@@ -137,4 +137,19 @@ app.post("/articles/:id", function(req, res) {
     });
 });
 
-//
+// Deletes one note
+app.post("/deleteNote/:id", function(req, res) {
+    db.Note.remove({"_id": req.params.id})
+    .then(function(result) {
+    })
+    .catch(function(err) {
+        res.json(err)
+    });
+ 
+});
+
+
+// Starting the server
+app.listen(PORT, function() {
+    console.log("App running on port " + PORT + "!");
+});
