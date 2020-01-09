@@ -25,9 +25,19 @@ app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
 
+// Using Handlebars
+var exphbs = require("express-handlebars");
+app.engine("handlebars", exphbs({
+    defaultLayout: "main",
+    partialsDir: path.join(__dirname, "/views/layouts/partials")
+}));
+app.set("view engine", "handlebars");
+
 // Connect to the MONGO DB
 mongoose.connect("mongodb://localhost/MWS", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongowebs";
 
+mongoose.connect(MONGODB_URI);
 // Routes
 
 // A get route for scraping the 
