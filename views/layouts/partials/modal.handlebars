@@ -1,4 +1,5 @@
 <div class="modal fade modalNote" id="noteModal{{_id}}" tabindex="-1" role="dialog">
+   <div class="modal-dialog" role="document">
     <div class="modal-content">
         <div class="modal-header">
             <h5 class="modal-title">Note For {{_id}}</h5>
@@ -8,7 +9,7 @@
         </div>
         <div class="modal-body">
             {{#if notes}}
-            {{#each notes}}
+                {{#each notes}}
             <div class="panel panel-default">
                 <div class="panel-body">
                     <h4>Previous Note:</h4>
@@ -17,7 +18,7 @@
                         Note</button><br>
                 </div>
             </div>
-            {{/each}}
+                {{/each}}
             {{else}}
             <div class="panel panel-default">
                 <div class="panel-body">
@@ -28,7 +29,7 @@
             <div class="form-group">
                 <textarea id="noteText{{_id}}" class="form-control" rows="4" placeholder="New Note"></textarea>
             </div>
-
+        </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary save-note" data-id={{_id}}>Save</button>
             </div>
