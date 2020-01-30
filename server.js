@@ -37,33 +37,32 @@ app.engine(
 app.set("view engine", "handlebars");
 
 // Connect to the MONGO DB
-mongoose.connect("mongodb://localhost/MWS", { useNewUrlParser: true });
-var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongowebs";
+//mongoose.connect("mongodb://localhost/MWS", { useNewUrlParser: true });
+var MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost/mongodraft";
 
 mongoose.connect(MONGODB_URI);
 // Routes
 
 // A get route for all articles
 app.get("/", function(req, res) {
-  db.Article.find({ saved: false })
+  db.Article.find({ "saved": false })
     .then(function(result) {
       // This variable allows us to use the handlebars by passing the results from the db as a value in an object
       var hbsObject = { articles: result };
       res.render("index", hbsObject);
     })
     .catch(function(err) {
-      res.json(err);
-    });
+      res.json(err) });
 });
 
-// Scrapes the tankathon website for article data
+// Scrapes the nbadraftnet.com website for article data
 app.get("/scraped", function(req, res) {
-  // Axios to place server-side http request for data from tankathon.com
-  axios.get("https//:wwww.tankathon.com/mock_draft").then(function(response) {
+  // Axios to place server-side http request for data from nbadraftnet.com
+  axios.get("http://www.basketballinsiders.com/tag/mock-drafts/").then(function(response) {
     var $ = cheerio.load(response.data);
 
     $("h2.entry-title").each(function(i, element) {
-      var result = [];
+      var result = {};
 
       result.title = $(element).text();
 
@@ -76,80 +75,97 @@ app.get("/scraped", function(req, res) {
         .text()
         .trim();
 
-      db.Article.create(result).then(function(dbArticle) {
-        console.log(dbArticle);
-      });
+      db.Article.create(result)
+        .then(function(dbArticle) {
+          console.log(dbArticle);
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     });
   });
   res.send("Done Scraping");
 });
 
-
 // Get request to display stored article data
-app.get("/stored", function(req, res) {
-    db.Article.find({"saved": true})
-        .populate("notes")
-        .then(function(result) {
-            var hbsObject = { articles: result };
-            res.render("saved", hbsObject);
-        }).catch(function(err){ res.json(err) });
+app.get("/saved", function(req, res) {
+  db.Article.find({ "saved": true })
+    .populate("notes")
+    .then(function(result) {
+      var hbsObject = { articles: result };
+      res.render("saved", hbsObject);
+    })
+    .catch(function(err) {
+      res.json(err) });
 });
 
 // Post stored article data
-app.post("/stored/:id", function(req, res) {
-    db.Article.findOneAndUpdate({"_id": req.params.id}, {"$set": {"saved": true}})
+app.post("/saved/:id", function(req, res) {
+  db.Article.findOneAndUpdate({ "_id": req.params.id }, { "$set": { "saved": true } })
     .then(function(result) {
-        res.json(result);
-    }).catch(function(err){ res.json(err) });
+      res.json(result);
+    })
+    .catch(function(err) {
+      res.json(err) });
 })
 
 // Deletes specific articles from "Stored Articles" and puts them back on the homepage
-app.post("delete/:id", function(req, res){
-    db.Article.findOneAndUpdate({"_id": req.params.id}, {"$set": {"saved": false}})
-    .then(function(result){
-        res.json(result);
-    }).catch(function(err) { res.json(err) });
+app.post("delete/:id", function(req, res) {
+  db.Article.findOneAndUpdate(
+    { "_id": req.params.id },
+    { "$set": { "saved": false } }
+  )
+    .then(function(result) {
+      res.json(result);
+    })
+    .catch(function(err) {
+      res.json(err) });
 });
 
 // Grabs a specific  article by id and populates it with it's note(s)
 app.get("/articles/:id", function(req, res) {
-    db.Article.findOne({"_id": req.params.id })
+  db.Article.findOne({ "_id": req.params.id })
     .populate("notes")
     .then(function(result) {
-        res.json(result);
-    }).catch(function(err) { res.json(err); });
-});
-
-// Creates an article s specific note data
-app.post("/articles/:id", function(req, res) {
-    // Create a new note and pass the req.body to the entry
-    db.Note.create(req.body)
-    .then(function(dbNote) {
-        return db.Article.findOneAndUpdate({"_id": req.params.id }, {"notes": dbNote._id }, { new: true });
-    })
-    .then(function(dbArticle) {
-        // If we were able to successfully update an Article, send it back to the client
-        res.json(dbArticle);
+      res.json(result);
     })
     .catch(function(err) {
-        // If an error occurred, send it to the client
-        res.json(err);
+      res.json(err) });
+});
+
+// Creates an article's specific note data
+app.post("/articles/:id", function(req, res) {
+  // Create a new note and pass the req.body to the entry
+  db.Note.create(req.body)
+    .then(function(dbNote) {
+      return db.Article.findOneAndUpdate(
+        { "_id": req.params.id },
+        { "notes": dbNote._id },
+        { new: true }
+      );
+    })
+    .then(function(dbArticle) {
+      // If we were able to successfully update an Article, send it back to the client
+      res.json(dbArticle);
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
     });
 });
 
 // Deletes one note
 app.post("/deleteNote/:id", function(req, res) {
-    db.Note.remove({"_id": req.params.id})
+  db.Note.remove({ "_id": req.params.id })
     .then(function(result) {
+      res.json(result);
     })
     .catch(function(err) {
-        res.json(err)
+      res.json(err)
     });
- 
 });
-
 
 // Starting the server
 app.listen(PORT, function() {
-    console.log("App running on port " + PORT + "!");
+  console.log("App running on port " + PORT + "!");
 });
