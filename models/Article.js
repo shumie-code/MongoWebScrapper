@@ -4,7 +4,7 @@ var Schema = mongoose.Schema;
 
 //Using the Schema constructor, create a new UserSchema Object
 // This is similar to a Sequelize model
-var ArticleSchema = new Schema ({
+var ArticleSchema = new Schema({
     // headline is required and of type string
     title: {
         type: String,
@@ -23,8 +23,8 @@ var ArticleSchema = new Schema ({
         {
         type: Schema.Types.ObjectId,
         ref: "Comment"
-    }
-]
+        }
+    ]
 });
 // This creates our model from the above schema, using mongooses model method
 var Article = mongoose.model("Article", ArticleSchema);

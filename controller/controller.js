@@ -13,7 +13,7 @@ router.get("/", function(req, res) {
 });
 
 router.get("/scrape", function(req, res) {
-  request("https://www.talkbasket.net/news", function(error, response, html) {
+  request("https://theverge.com", function(error, response, html) {
     var $ = cheerio.load(html);
     var titlesArray = [];
 
@@ -68,7 +68,7 @@ router.get("/articles", function(req, res) {
     });
 });
 
-router.get("articles-json", function(req, res) {
+router.get("/articles-json", function(req, res) {
   Article.find({}, function(err, doc) {
     if (err) {
       console.log(err);
