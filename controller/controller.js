@@ -13,7 +13,7 @@ router.get("/", function(req, res) {
 });
 
 router.get("/scrape", function(req, res) {
-  request("https://theverge.com", function(error, response, html) {
+  request("https://www.talkbasket.net/news", function(error, response, html) {
     var $ = cheerio.load(html);
     var titlesArray = [];
 
@@ -54,6 +54,7 @@ router.get("/scrape", function(req, res) {
     res.redirect("/");
   });
 });
+
 router.get("/articles", function(req, res) {
   Article.find()
     .sort({ _id: -1 })
@@ -67,7 +68,7 @@ router.get("/articles", function(req, res) {
     });
 });
 
-router.get("/articles-json", function(req, res) {
+router.get("articles-json", function(req, res) {
   Article.find({}, function(err, doc) {
     if (err) {
       console.log(err);
@@ -102,7 +103,7 @@ router.get("/readArticle/:id", function(req, res) {
         console.log("Error: " + err);
       } else {
         hbsObj.article = doc;
-        var link = doc.link;
+        var link = dock.link;
         request(link, function(error, response, html) {
           var $ = cheerio.load(html);
 
@@ -119,6 +120,7 @@ router.get("/readArticle/:id", function(req, res) {
       }
     });
 });
+
 router.post("/comment/:id", function(req, res) {
   var user = req.body.name;
   var content = req.body.comment;
