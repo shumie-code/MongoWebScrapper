@@ -5,8 +5,9 @@ var path = require("path");
 var request = require("request");
 var cheerio = require("cheerio");
 
-var Comment = require("../models/Comment.js");
 var Article = require("../models/Article.js");
+
+var Comment = require("../models/Comment.js");
 
 router.get("/", function(req, res) {
   res.redirect("/articles");
@@ -103,7 +104,7 @@ router.get("/readArticle/:id", function(req, res) {
         console.log("Error: " + err);
       } else {
         hbsObj.article = doc;
-        var link = dock.link;
+        var link = doc.link;
         request(link, function(error, response, html) {
           var $ = cheerio.load(html);
 
